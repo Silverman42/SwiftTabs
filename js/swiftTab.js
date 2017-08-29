@@ -19,12 +19,13 @@ $(document).ready(function () {
             tabSwitch();
             return this.each(function(){
                 var parent = $(this).selector;
-                console.log($(this));
+                //console.log($(this));
                 $(option.tab).each(function (index, element) {
                     $(this).click(function (e) { 
                         e.preventDefault();
                         counter = index;
                         tabSwitch();
+                        console.log(index);
                     });
                    
                 });
