@@ -1,31 +1,37 @@
 $(document).ready(function () {
     (function($){
         $.fn.swiftTabs = function(param){
+            //optional parameter to change class for personalization
             var option = $.extend({
                 nav: '.st-navbar',
                 tab: '.st-tabs',
                 pages: '.st-pages',
             },param);
-            var counter = 0;
-            var tabSwitch = function () {  
-                $(option.tab).each(function (index, element) {
-                    // element == this
-                    $(this).css({'border-bottom-color':'white'});
-                    $(option.pages).eq(index).css({'display':'none'});
-                });
-                $(option.tab).eq(counter).css({'border-bottom-color':'red'});
-                $(option.pages).eq(counter).css({'display':'block'});
-            }
-            tabSwitch();
             return this.each(function(){
-                var parent = $(this).selector;
-                //console.log($(this));
-                $(option.tab).each(function (index, element) {
+                var counter = 0; //Counter to get Index of tab class and page class after in tabSwitch function
+                var counter2;// Counter to assign index of tabColor array;  
+                var tabColor = [];// Array to set border color style for tabClass
+                var tabClass = this.children[0].children; //Tab Class
+                var pagesClass = this.children[1].children;//Pages Class                
+                //tab switch function to change change tab and pages accordingly
+                var tabSwitch = function () {
+                 $(tabClass).each(function (index, element) {
+                        // element == this
+                        counter2 = index
+                        tabColor[counter2] = $(this).attr('data-st-color');
+                        $(this).css({'border-bottom-color':'white'});
+                        $(pagesClass).eq(index).css({'display':'none'});
+                    });
+                    $(tabClass).eq(counter).css({'border-bottom-color':tabColor[counter]});
+                    $(pagesClass).eq(counter).css({'display':'block'});
+                }
+                //tabSwitch function invoke
+                tabSwitch();                
+                $(tabClass).each(function (index, element) {
                     $(this).click(function (e) { 
                         e.preventDefault();
                         counter = index;
                         tabSwitch();
-                        console.log(index);
                     });
                    
                 });
